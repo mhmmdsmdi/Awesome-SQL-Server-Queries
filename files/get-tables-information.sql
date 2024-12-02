@@ -1,8 +1,3 @@
-# Awesome-SQL-Server-Queries
-
-Get all tables information of a database:
-
-```sql
 SELECT
     t.name AS TableName,
     s.name AS SchemaName,
@@ -42,4 +37,3 @@ GROUP BY
   s.name,
   p.rows
 -- FOR JSON AUTO;
-```
