@@ -3,17 +3,13 @@
 Get all tables information of a database:
 
 ```sql
+SELECT * FROM
+(
 SELECT
     t.name AS TableName,
     s.name AS SchemaName,
     p.rows AS [RowCount], 
     FORMAT(p.rows, 'N0') AS [HRowCount], 
-    FORMAT(SUM(a.total_pages) * 8, 'N0') AS HTotalSpaceKB, 
-    SUM(a.total_pages) * 8 AS TotalSpaceKB, 
-    FORMAT(CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)), 'N2') AS HTotalSpaceMB,
-    CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)) AS TotalSpaceMB,
-    FORMAT(CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)), 'N2') AS HTotalSpaceMB,
-    CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00 / 1024.00), 2) AS NUMERIC(36, 2)) AS TotalSpaceGB,
     FORMAT(SUM(a.used_pages) * 8, 'N0') AS HUsedSpaceKB,
     SUM(a.used_pages) * 8 AS UsedSpaceKB,
     FORMAT(CAST(ROUND(((SUM(a.used_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)), 'N2') AS HUsedSpaceMB,
@@ -25,7 +21,13 @@ SELECT
     FORMAT(CAST(ROUND(((SUM(a.total_pages) - SUM(a.used_pages)) * 8) / 1024.00, 2) AS NUMERIC(36, 2)), 'N2') AS HUnusedSpaceMB,
     CAST(ROUND(((SUM(a.total_pages) - SUM(a.used_pages)) * 8) / 1024.00, 2) AS NUMERIC(36, 2)) AS UnusedSpaceMB,
     FORMAT(CAST(ROUND(((SUM(a.total_pages) - SUM(a.used_pages)) * 8) / 1024.00 / 1024.00, 2) AS NUMERIC(36, 2)), 'N2') AS HUnusedSpaceGB,
-    CAST(ROUND(((SUM(a.total_pages) - SUM(a.used_pages)) * 8) / 1024.00 / 1024.00, 2) AS NUMERIC(36, 2)) AS UnusedSpaceGB
+    CAST(ROUND(((SUM(a.total_pages) - SUM(a.used_pages)) * 8) / 1024.00 / 1024.00, 2) AS NUMERIC(36, 2)) AS UnusedSpaceGB,
+	FORMAT(SUM(a.total_pages) * 8, 'N0') AS HTotalSpaceKB, 
+    SUM(a.total_pages) * 8 AS TotalSpaceKB, 
+    FORMAT(CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)), 'N2') AS HTotalSpaceMB,
+    CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00), 2) AS NUMERIC(36, 2)) AS TotalSpaceMB,
+    FORMAT(CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00 / 1024.00), 2) AS NUMERIC(36, 2)), 'N2') AS HTotalSpaceGB,
+    CAST(ROUND(((SUM(a.total_pages) * 8) / 1024.00 / 1024.00), 2) AS NUMERIC(36, 2)) AS TotalSpaceGB
 FROM
   sys.tables t
   INNER JOIN sys.indexes i ON t.object_id = i.object_id
@@ -41,5 +43,6 @@ GROUP BY
   t.name,
   s.name,
   p.rows
+) AS [Inofrmation]
 -- FOR JSON AUTO;
 ```
