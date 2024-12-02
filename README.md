@@ -1,4 +1,4 @@
-# Awesome-SQL-Server-Queries
+# Awesome SQL Server Queries
 
 Get all tables information of a database:
 
